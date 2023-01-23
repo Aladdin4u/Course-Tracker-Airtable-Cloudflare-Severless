@@ -1,13 +1,5 @@
 name = "course-tracker-workers-airtable-form"
-type = "javascript"
 
 account_id = "1b04e843d681f0b93a928f5d64978e55"
 workers_dev = true
 
-[vars]
-AIRTABLE_API_BASE_ID = "app1U9gflU0IxKHAm"
-AIRTABLE_API_URL = "https://api.airtable.com"
-AIRTABLE_API_VERSION = "v0"
-PROXY_PREFIX = "api"
-ALLOWED_TARGETS = '[{"resource":"courses","method":"*"}]'
-PROXY_CACHE_TIME = 0
