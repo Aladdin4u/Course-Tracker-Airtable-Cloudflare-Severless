@@ -1,5 +1,4 @@
-name = "course-tracker-workers-airtable-form"
-
+name = "airtable-proxy-worker"
+compatibility_date = "2023-01-26"
 account_id = "1b04e843d681f0b93a928f5d64978e55"
-workers_dev = true
-
+worker_dev = true

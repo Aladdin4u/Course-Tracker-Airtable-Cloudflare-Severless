@@ -2,15 +2,17 @@ import { isAllowed } from "./is-allowed";
 import { getMethod } from "./get-method";
 import { getTarget } from "./get-target";
 
-const config = { 
-  'airtableApiUrl': 'https://api.airtable.com',
-  'airtableBaseId': 'AIRTABLE_API_BASE_ID',
-  'airtableApiVersion': 'v0',
-  'airtableApiKey': 'AIRTABLE_API_BASE_ID',
-  'cacheTime': 0,
-  'prefix': '',
-  'allowedTargets': '*',
-};
+const wpConfig = {
+  airtableApiUrl: 'https://api.airtable.com',
+  airtableBaseId: AIRTABLE_API_BASE_ID,
+  airtableApiVersion: 'v0',
+  airtableApiKey: AIRTABLE_API_KEY,
+  cacheTime: 0,
+  prefix:'',
+  allowedTargets: '*'
+}
+
+const config = { ...wpConfig };
 const parseJson = obj => {
   try {
     return JSON.parse(obj);

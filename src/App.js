@@ -8,9 +8,14 @@ function App() {
   
   const loadCourses = async () => {
     try {
-      const res = await fetch('/.netlify/functions/courses');
-      const courses = await res.json();
-      setCourses(courses);
+      const res = await fetch('https://airtable-proxy-worker.signalnerves.workers.dev/courses');
+      const data = await res.json();
+      const courses = data.records
+      const formattedCourses = courses.map((course) => ({
+        id: course.id,
+        ...course.fields,
+      }));
+      setCourses(formattedCourses);
     } catch (error) {
         console.error(error);
     }

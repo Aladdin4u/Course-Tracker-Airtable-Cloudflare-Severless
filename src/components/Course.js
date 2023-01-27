@@ -3,9 +3,24 @@ import React from 'react'
 const Course = ({ course, refreshCourses }) => {
     const markCoursePurchased = async () => {
         try {
-            await fetch('/.netlify/functions/courses', {
+            await fetch('https://airtable-proxy-worker.signalnerves.workers.dev/courses', {
                 method: 'PUT',
-                body: JSON.stringify({ ...course, purchased: true }),
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify(
+                    {
+                        "records": [
+                          {
+                            "id": course.id,
+                            "fields": {
+                              "name": course.name,
+                              "link": course.link,
+                              "tags": course.tags,
+                              "purchased" : true
+                            }
+                          }
+                        ]
+                      }
+                ),
             });
             refreshCourses();
         } catch (err) {
@@ -13,11 +28,12 @@ const Course = ({ course, refreshCourses }) => {
         }
     };
 
-    const deleteCourse = async () => {
+    const deleteCourse = async (e) => {
+        const id  = course.id
         try {
-            await fetch('/.netlify/functions/courses', {
+            await fetch(`https://airtable-proxy-worker.signalnerves.workers.dev/courses?records[]=${id}`, {
                 method: 'DELETE',
-                body: JSON.stringify({ id: course.id }),
+                headers: {"Content-Type" : "application/json"},
             });
             refreshCourses();
         } catch (err) {

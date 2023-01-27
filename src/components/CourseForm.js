@@ -15,10 +15,22 @@ export default function CourseForm({ courseAdded }) {
 
     const submitCourse = async (e) => {
         e.preventDefault();
+        const data = { name, link, tags }
         try {
-            await fetch('/.netlify/functions/courses', {
+            await fetch('https://airtable-proxy-worker.signalnerves.workers.dev/courses', {
                 method: 'POST',
-                body: JSON.stringify({ name, link, tags }),
+                headers: {"Content-type" : "application/json"},
+                body: JSON.stringify({
+                    "records": [
+                      {
+                        "fields": {
+                          "name": name,
+                          "link": link,
+                          "tags": tags
+                        }
+                      }
+                    ]
+                }),
             });
             resetForm();
             courseAdded();
