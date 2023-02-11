@@ -1,70 +1,63 @@
 # Course Tracker Airtable Severless
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A course tracker app using airtable proxy server and hosted on cloudflare worker
 
-## Available Scripts
+**Link to project:** https://course-tracker-airtable-cloudflare-severless.pages.dev/
 
-In the project directory, you can run:
+## How It's Made:
 
-### `npm start`
+**Tech used:**<p>![HTML5 BADGE](https://img.shields.io/static/v1?label=|&message=HTML5&color=23555f&style=plastic&logo=html5) ![CSS BADGE](https://img.shields.io/static/v1?label=|&message=CSS3&color=285f65&style=plastic&logo=css3) ![JAVASCRIPT BADGE](https://img.shields.io/static/v1?label=|&message=JAVASCRIPT&color=3c7f5d&style=plastic&logo=javascript) ![REACT BADGE](https://img.shields.io/static/v1?label=|&message=REACT.JS&color=2b625f&style=plastic&logo=react) ![CLOUDFLARE BADGE](https://img.shields.io/static/v1?label=|&message=CLOUFLARE&color=316c5e&style=plastic&logo=cloudflare) ![AIRTABLE BADGE](https://img.shields.io/static/v1?label=|&message=AIRTABLE&color=bbb111&style=plastic&logo=airtable)</p>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Optimizations
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+One of the first thing I would optimize and refactor the code to increase efficiency and productivity
 
-### `npm test`
+## Lessons Learned:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Utilized the airtable proxy server using to protect user api keys and base id from client side. Also working cloudflare worker commmand run the severless function
 
-### `npm run build`
+## Usage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Cloudflare account with [Workers](https://www.cloudflare.com/products/cloudflare-workers/) enabled.
+- An [Airtable Base ID](https://community.airtable.com/t/what-is-the-app-id-where-do-i-find-it/2984) and your [Airtable API key](https://support.airtable.com/hc/en-us/articles/219046777-How-do-I-get-my-API-key-).
+- Node and Node Package Manager ([npm](https://www.npmjs.com/get-npm)).
+- Familiarity with your computer's terminal/command line interface.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Routing
 
-### `npm run eject`
+By default, the routes for each of your tables are available at `YOUR_CLOUDFLARE_DOMAIN/RESOURCE_NAME`. For example, if my custom domain is `http://api.example.com` and the table I want to access is called `users`, I would access the API at `http://api.example.com/users`.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+You can change this routing using a `PROXY_PREFIX` as described in the **Configuration** section below.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Configuration
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+In addition to the required `AIRTABLE_API_KEY` and `AIRTABLE_API_BASE_ID` variables, you can also set the following configuration options as ENV vars:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- `AIRTABLE_API_URL` - Defaults to `https://api.airtable.com`.
+- `AIRTABLE_API_VERSION` - Defaults to `v0`.
+- `PROXY_PREFIX` - Use this if your Cloudflare worker's routes are prefixed by something before the Airtable resource name. For example, you may want to call `mycustomdomain.com/api/posts` instead of `mycustomdomain.com/posts`. In this example, you would add `api` as a prefix.
+- `ALLOWED_TARGETS` - Use this to lock down your Airtable API to specific resources and methods. For example, a stringified JSON object like this: `'[{"resource":"posts","method":"GET,PUT"},{"resource":"comments","method":"*"}]'` will allow `GET` and `PUT` requests on the `posts` resource and all request methods on the `comments` resource. Allows all methods for all resources by default.
+- `PROXY_CACHE_TIME` - Defaults to `0`. The number of seconds set on the `Cache-Control` header to use Cloudflare's caching.
 
-## Learn More
+## Installation:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Clone repo
+1. run `npm intall`
+1. cd worker update AIRTABLE_API_KEY
+1. cd worker update AIRTABLE_API_BASE_ID
+1. update the fetch URL = `https://airtable-proxy-worker.signalnerves.workers.dev/`
+1. update airtable table name = `courses`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Note:
 
-### Code Splitting
+The AIRTABLE*API_KEY and AIRTABLE_API_BASE_ID should be set using `wrangler secret`, a subcommand of `wrangler` for setting \_encrypted environment varibles*. Run `wrangler secret put` as seen below, and paste in your API key:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```sh
+$ wrangler secret put AIRTABLE_API_KEY
+Enter the secret text you would like assigned to the variable AIRTABLE_API_KEY on the script named airtable-form-handler:
+******
+🌀  Creating the secret for script name airtable-form-handler
+✨  Success! Uploaded secret AIRTABLE_API_KEY.
+```
